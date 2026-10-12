@@ -1,0 +1,633 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>myLibri: pobierz aplikację</title>
+<meta name="description" content="Nieoficjalna aplikacja do dziennika Librus Synergia na Androida i iPhone'a. Pobierz najnowszą wersję. myLibri nie jest powiązane z firmą Librus.">
+<meta name="theme-color" content="#F7F2E8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#262624" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pl_PL">
+<meta property="og:title" content="myLibri: pobierz aplikację">
+<meta property="og:description" content="Nieoficjalna aplikacja do dziennika Librus Synergia, na Androida i iPhone'a. Nie jest powiązana z firmą Librus.">
+<meta property="og:image" content="https://reimaginedpixel.github.io/MyLibri-releasees/assets/icon-512.png">
+<link rel="icon" href="assets/favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Caveat:wght@600;700&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* The app's look (mobile/src/ui/palette.ts): warm notebook paper, and the
+   warm dark notebook when the phone or computer is in dark mode. */
+:root {
+  color-scheme: light dark;
+  --paper: #F7F2E8;
+  --paper-2: #EFE7D8;
+  --card: #FFFFFF;
+  --ink: #1F1D1A;
+  --ink-2: #5E574D;
+  --ink-3: #8C8478;
+  --hair: rgba(31, 29, 26, .12);
+  --line: #1F1D1A;
+  --shadow: #1F1D1A;
+  --terracotta: #D0643F;
+  --terracotta-ink: #A9472A;
+  --terracotta-tint: #F8E1D6;
+  --mustard: #E3B23C;
+  --mustard-ink: #80600F;
+  --mustard-tint: #FBEFCB;
+  --sage: #8DAA7E;
+  --sage-ink: #4A6741;
+  --sage-tint: #E4EDDD;
+  --sky: #6FA8DC;
+  --sky-ink: #2C6594;
+  --sky-tint: #DDEBF7;
+  --sticker-fill: #FFFFFF;
+  --sticker-ink: #1F1D1A;
+  --on-ink: #F7F2E8;
+  --f-head: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "Instrument Sans", "Helvetica Neue", "Segoe UI", system-ui, sans-serif;
+  --f-hand: "Caveat", "Bradley Hand", "Segoe Print", cursive;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #262624;
+    --paper-2: #1C1B1A;
+    --card: #302F2C;
+    --ink: #F3EFE6;
+    --ink-2: #C3BFB4;
+    --ink-3: #8F8B81;
+    --hair: rgba(243, 239, 230, .12);
+    --line: #A6A095;
+    --shadow: #121110;
+    --terracotta: #D97757;
+    --terracotta-ink: #EE9E7E;
+    --terracotta-tint: #46302A;
+    --mustard: #DDB04A;
+    --mustard-ink: #E8C56E;
+    --mustard-tint: #403724;
+    --sage: #96B387;
+    --sage-ink: #AFCB9F;
+    --sage-tint: #2F382B;
+    --sky: #7DB0DE;
+    --sky-ink: #9BC5EC;
+    --sky-tint: #29343F;
+    --sticker-fill: #3B3935;
+    --sticker-ink: #E8E3D8;
+    --on-ink: #1C1B1A;
+  }
+}
+
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+}
+a { color: var(--terracotta-ink); text-underline-offset: 3px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline: 2.5px solid var(--terracotta); outline-offset: 3px; border-radius: 8px; }
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 16px; }
+h2 { font: 700 24px/1.15 var(--f-head); letter-spacing: -.015em; margin: 0; }
+h3 { font: 700 18px/1.2 var(--f-head); margin: 0; }
+p { margin: 0; }
+.hand { font-family: var(--f-hand); font-weight: 700; }
+
+/* A hand drawn sticker, stacked like the app's Sticker: the coloured
+   silhouette (edge), the body on it (fill), the ink drawing on top. */
+.stk { --sz: 44px; --outline: var(--sage); position: relative; display: inline-block; flex: none; width: var(--sz); height: var(--sz); }
+.stk > i { position: absolute; inset: 0; -webkit-mask: var(--m) center / contain no-repeat; mask: var(--m) center / contain no-repeat; }
+.stk > .e { background: var(--outline); filter: drop-shadow(0 1px 0 rgba(31, 29, 26, .18)); }
+.stk > .f { background: var(--sticker-fill); }
+.stk > .k { background: var(--sticker-ink); }
+
+/* An ink card: drawn outline and a hard offset shadow, the app's InkCard. */
+.card {
+  background: var(--card);
+  border: 1.5px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  padding: 22px;
+}
+
+/* ------------------------------------------------------------ hero */
+.hero { padding: 44px 0 26px; }
+.hero-top { display: flex; align-items: center; gap: 24px; }
+.hero .logo { --sz: 116px; --outline: var(--terracotta); transform: rotate(-4deg); }
+.badge {
+  display: inline-block;
+  font: 700 22px/1 var(--f-hand);
+  color: var(--terracotta-ink);
+  background: var(--terracotta-tint);
+  padding: 4px 12px 6px;
+  border-radius: 10px;
+  transform: rotate(-2deg);
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+h1 { font: 800 clamp(48px, 10vw, 76px)/.95 var(--f-head); letter-spacing: -.035em; margin: 0; }
+.under { position: relative; display: inline-block; }
+.under::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -4%;
+  bottom: -12px;
+  height: 15px;
+  background: var(--terracotta);
+  -webkit-mask: url(assets/marks/double-scribble-underline.png) center / 100% 100% no-repeat;
+  mask: url(assets/marks/double-scribble-underline.png) center / 100% 100% no-repeat;
+}
+.lead { font-size: 18px; color: var(--ink-2); max-width: 52ch; margin-top: 24px; text-wrap: pretty; }
+.jump { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+.chip-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1.5px solid var(--line);
+  background: var(--card);
+  color: var(--ink);
+  font: 600 15px/1 var(--f-body);
+  text-decoration: none;
+}
+.chip-link:hover { background: var(--paper-2); }
+.features { list-style: none; margin: 30px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.features li { display: flex; align-items: center; gap: 10px; font: 600 15px/1.25 var(--f-body); color: var(--ink); }
+.features .stk { --sz: 40px; }
+
+/* ------------------------------------------------------------ before you download */
+.warn { background: var(--mustard-tint); margin-top: 26px; }
+.warn-h { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.warn-h .stk { --sz: 46px; --outline: var(--terracotta); }
+.rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 26px; }
+.rules li { color: var(--ink-2); font-size: 15px; }
+.rules b { display: block; color: var(--ink); font: 700 16px/1.3 var(--f-body); margin-bottom: 3px; }
+.agree {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1.5px dashed var(--line);
+  cursor: pointer;
+  font: 600 16px/1.4 var(--f-body);
+}
+.agree input { width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--terracotta); flex: none; cursor: pointer; }
+.ok .agree { border-style: solid; background: var(--sage-tint); }
+.agree-note { margin-top: 8px; font-size: 14px; color: var(--ink-3); }
+.nudge { animation: nudge .45s ease; }
+@keyframes nudge { 25% { transform: translateX(-6px); } 50% { transform: translateX(6px); } 75% { transform: translateX(-3px); } }
+@media (prefers-reduced-motion: reduce) { .nudge { animation: none; outline: 2.5px solid var(--terracotta); } }
+
+/* ------------------------------------------------------------ downloads */
+.downloads { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 30px; align-items: start; }
+.dl { position: relative; }
+.dl.yours { order: -1; }
+.dl-h { display: flex; align-items: center; gap: 14px; }
+.dl-h .stk { --sz: 56px; }
+#android .stk { --outline: var(--sage); }
+#iphone .stk { --outline: var(--sky); }
+.meta { color: var(--ink-3); font-size: 14px; margin-top: 2px; min-height: 1.4em; }
+.mine {
+  position: absolute;
+  top: -14px;
+  right: 18px;
+  font: 700 20px/1 var(--f-hand);
+  color: var(--sage-ink);
+  background: var(--sage-tint);
+  border: 1.5px solid var(--line);
+  padding: 3px 10px 5px;
+  border-radius: 10px;
+  transform: rotate(3deg);
+}
+.dl-intro { margin-top: 14px; color: var(--ink-2); font-size: 15px; }
+.btns { display: grid; gap: 10px; margin-top: 16px; }
+.btn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 18px;
+  border-radius: 14px;
+  background: var(--ink);
+  color: var(--on-ink);
+  border: 1.5px solid var(--line);
+  box-shadow: 3px 3px 0 var(--terracotta);
+  text-decoration: none;
+  font: 700 17px/1.2 var(--f-body);
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+.btn small { font: 500 13.5px/1.3 var(--f-body); opacity: .82; }
+.btn:hover { transform: translate(-1px, -1px); box-shadow: 4px 4px 0 var(--terracotta); }
+.btn:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--terracotta); }
+.btn.quiet { background: var(--card); color: var(--ink); box-shadow: 3px 3px 0 var(--shadow); }
+/* Until the box above is ticked (only when the script runs; without it the links just work). */
+.js body:not(.ok) .btn[data-file] { background: var(--paper-2); color: var(--ink-3); border-style: dashed; box-shadow: none; transform: none; cursor: not-allowed; }
+.gate { display: none; margin-top: 10px; font: 700 19px/1.2 var(--f-hand); color: var(--terracotta-ink); }
+.js body:not(.ok) .gate { display: block; }
+.steps { list-style: none; counter-reset: step; margin: 20px 0 0; padding: 0; display: grid; gap: 12px; }
+.steps li { counter-increment: step; position: relative; padding-left: 40px; color: var(--ink-2); font-size: 15px; }
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--paper-2);
+  color: var(--ink);
+  font: 700 21px/1 var(--f-hand);
+}
+.steps b { color: var(--ink); }
+.small { margin-top: 14px; font-size: 14px; color: var(--ink-3); }
+
+/* ------------------------------------------------------------ what is new */
+.news { margin-top: 30px; }
+.news-h { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.seg { display: inline-flex; gap: 4px; padding: 4px; background: var(--paper-2); border-radius: 12px; }
+.seg button { border: 0; background: none; padding: 7px 12px; border-radius: 9px; font: 600 14px/1 var(--f-body); color: var(--ink-2); cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 0 var(--hair), 0 0 0 1px var(--hair); }
+.news-meta { margin-top: 6px; color: var(--ink-3); font-size: 14px; }
+.news-list { margin: 14px 0 0; padding: 0 0 0 20px; display: grid; gap: 6px; color: var(--ink-2); }
+.news-list li::marker { color: var(--terracotta); }
+.news-more { display: inline-block; margin-top: 14px; font-weight: 600; }
+
+/* ------------------------------------------------------------ data and updates */
+.facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 30px; }
+.fact-h { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.fact-h .stk { --sz: 46px; }
+.facts ul { margin: 0; padding: 0 0 0 20px; display: grid; gap: 8px; color: var(--ink-2); font-size: 15px; }
+.facts li::marker { color: var(--sage); }
+.facts p { color: var(--ink-2); font-size: 15px; }
+.facts p + p { margin-top: 10px; }
+
+/* ------------------------------------------------------------ footer */
+footer { margin: 44px 0 0; padding: 22px 0 40px; border-top: 1.5px dashed var(--hair); color: var(--ink-3); font-size: 14px; }
+footer p + p { margin-top: 8px; }
+.squiggle { display: block; width: 120px; height: 18px; margin: 0 0 14px; background: var(--ink-3); -webkit-mask: url(assets/marks/wavy-underline.png) center / 100% 100% no-repeat; mask: url(assets/marks/wavy-underline.png) center / 100% 100% no-repeat; }
+
+@media (max-width: 760px) {
+  .hero { padding-top: 28px; }
+  .hero-top { gap: 16px; }
+  .hero .logo { --sz: 84px; }
+  .badge { font-size: 20px; }
+  .lead { font-size: 17px; }
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 10px; }
+  .features li { font-size: 14px; gap: 8px; }
+  .features .stk { --sz: 34px; }
+  .rules, .downloads, .facts { grid-template-columns: minmax(0, 1fr); }
+  .card { padding: 18px; }
+  .downloads { gap: 30px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <div class="hero-top">
+    <span class="stk logo" data-s="book-with-quill" aria-hidden="true"></span>
+    <div>
+      <span class="badge">nieoficjalna aplikacja</span>
+      <h1><span class="under">myLibri</span></h1>
+    </div>
+  </div>
+  <p class="lead">Aplikacja do dziennika Librus Synergia na Androida i iPhone'a: plan, oceny, sprawdziany i widżety w jednym miejscu. Niezależny projekt, nie od firmy Librus.</p>
+  <nav class="jump" aria-label="Pobierz">
+    <a class="chip-link" href="#android">Pobierz na Androida</a>
+    <a class="chip-link" href="#iphone">Pobierz na iPhone'a</a>
+  </nav>
+  <ul class="features" aria-label="Co potrafi">
+    <li><span class="stk" data-s="timetable-grid" aria-hidden="true"></span>Plan lekcji z odliczaniem do dzwonka</li>
+    <li><span class="stk" data-s="grade-badge" style="--outline: var(--mustard)" aria-hidden="true"></span>Oceny ze średnią</li>
+    <li><span class="stk" data-s="test-paper" style="--outline: var(--terracotta)" aria-hidden="true"></span>Sprawdziany i zadania</li>
+    <li><span class="stk" data-s="calendar" style="--outline: var(--sky)" aria-hidden="true"></span>Dni wolne i ferie</li>
+    <li><span class="stk" data-s="four-leaf-clover" aria-hidden="true"></span>Szczęśliwy numerek</li>
+    <li><span class="stk" data-s="notification-bell" style="--outline: var(--mustard)" aria-hidden="true"></span>Widżety i powiadomienia</li>
+  </ul>
+</header>
+
+<section class="card warn" id="zanim" aria-labelledby="zanim-h">
+  <div class="warn-h">
+    <span class="stk" data-s="exclamation-mark-burst" aria-hidden="true"></span>
+    <h2 id="zanim-h">Zanim pobierzesz</h2>
+  </div>
+  <ul class="rules">
+    <li>
+      <b>To nie jest aplikacja Librusa.</b>
+      myLibri to niezależny, nieoficjalny projekt. Nie jest tworzony, sprawdzany ani wspierany przez firmę Librus i nie jest z nią w żaden sposób powiązany. Librus i Synergia to znaki towarowe ich właścicieli; te nazwy są tu tylko po to, żeby było wiadomo, z czym działa aplikacja.
+    </li>
+    <li>
+      <b>Może naruszać regulamin Librusa.</b>
+      Aplikacja łączy się z Librusem nieoficjalnie, tak jak strona w przeglądarce. Korzystanie z niej może być niezgodne z regulaminem Librusa. Librus może w każdej chwili to utrudnić albo zablokować, a nawet ograniczyć dostęp do konta. Sprawdź regulamin, zanim zaczniesz.
+    </li>
+    <li>
+      <b>Na własną odpowiedzialność.</b>
+      Aplikację dostajesz „tak jak jest”, bez żadnych gwarancji. W granicach, na jakie pozwala prawo, autor nie odpowiada za żadne szkody: za utracone dane, zablokowane konto, kłopoty z telefonem ani za błędy w ocenach, frekwencji czy planie. Zawsze wiążący jest oficjalny Librus.
+    </li>
+    <li>
+      <b>Pobieraj tylko stąd.</b>
+      Pliki myLibri są tylko na tej stronie i w wydaniach repozytorium MyLibri-releasees na GitHubie. Kopie z innych miejsc mogą być podmienione. Jeśli coś tu jest dla Ciebie nie do przyjęcia, nie pobieraj aplikacji.
+    </li>
+  </ul>
+  <label class="agree" id="agree-box">
+    <input type="checkbox" id="agree">
+    <span>Rozumiem to wszystko i pobieram myLibri na własną odpowiedzialność.</span>
+  </label>
+  <p class="agree-note">Ta przeglądarka zapamięta Twój wybór. Pobierając, akceptujesz zasady powyżej.</p>
+</section>
+
+<div class="downloads">
+  <section class="card dl" id="android" aria-labelledby="android-h">
+    <span class="mine" hidden>Twój telefon</span>
+    <div class="dl-h">
+      <span class="stk" data-s="holding-mobile-phone" aria-hidden="true"></span>
+      <div>
+        <h2 id="android-h">Android</h2>
+        <p class="meta" data-meta="android">Sprawdzam najnowszą wersję…</p>
+      </div>
+    </div>
+    <div class="btns">
+      <a class="btn" data-file="myLibri.apk" href="https://github.com/ReimaginedPixel/MyLibri-releasees/releases/latest/download/myLibri.apk">
+        Pobierz myLibri.apk
+        <small data-size="myLibri.apk">plik do zainstalowania na telefonie</small>
+      </a>
+    </div>
+    <p class="gate">Najpierw zaznacz wyżej, że rozumiesz zasady.</p>
+    <ol class="steps">
+      <li>Otwórz tę stronę <b>na telefonie</b> i pobierz plik.</li>
+      <li>Otwórz pobrany plik i dotknij <b>Zainstaluj</b>. Za pierwszym razem telefon zapyta, czy pozwolić przeglądarce instalować aplikacje.</li>
+      <li>Nowa wersja instaluje się na starą: oceny, notatki i ustawienia zostają.</li>
+    </ol>
+    <p class="small">Android ostrzega przed każdą aplikacją spoza Sklepu Play. To ostrzeżenie dotyczy też myLibri, a instalujesz ją na własną odpowiedzialność.</p>
+  </section>
+
+  <section class="card dl" id="iphone" aria-labelledby="iphone-h">
+    <span class="mine" hidden>Twój telefon</span>
+    <div class="dl-h">
+      <span class="stk" data-s="holding-mobile-phone" aria-hidden="true"></span>
+      <div>
+        <h2 id="iphone-h">iPhone</h2>
+        <p class="meta" data-meta="ios">Sprawdzam najnowszą wersję…</p>
+      </div>
+    </div>
+    <p class="dl-intro">iPhone nie zainstaluje aplikacji spoza App Store prosto z Safari. Potrzebujesz SideStore, AltStore albo Sideloadly i swojego Apple ID.</p>
+    <div class="btns">
+      <a class="btn" data-file="myLibri-sidestore.ipa" href="https://github.com/ReimaginedPixel/MyLibri-releasees/releases">
+        myLibri-sidestore.ipa
+        <small data-size="myLibri-sidestore.ipa">dla SideStore i AltStore, bez aplikacji na zegarek</small>
+      </a>
+      <a class="btn quiet" data-file="myLibri-unsigned.ipa" href="https://github.com/ReimaginedPixel/MyLibri-releasees/releases">
+        myLibri-unsigned.ipa
+        <small data-size="myLibri-unsigned.ipa">dla Sideloadly na komputerze, z aplikacją na Apple Watch</small>
+      </a>
+    </div>
+    <p class="gate">Najpierw zaznacz wyżej, że rozumiesz zasady.</p>
+    <ol class="steps">
+      <li>Pobierz plik dla swojego sposobu i otwórz go w <b>SideStore</b> albo <b>AltStore</b> na iPhonie, albo w <b>Sideloadly</b> na komputerze.</li>
+      <li>Na iPhonie zaufaj swojemu Apple ID: <b>Ustawienia &gt; Ogólne &gt; VPN i zarządzanie urządzeniem</b>. Na iOS 16 i nowszym włącz też <b>Tryb dewelopera</b>.</li>
+      <li>Z darmowym Apple ID aplikacja działa 7 dni. Potem odśwież ją w SideStore albo zainstaluj ponownie.</li>
+    </ol>
+    <p class="small">Bez aplikacji na zegarek lekcja z odliczaniem i tak pokazuje się na Apple Watchu, jako powiadomienie na żywo z iPhone'a.</p>
+  </section>
+</div>
+
+<section class="card news" id="nowosci" aria-labelledby="nowosci-h" hidden>
+  <div class="news-h">
+    <h2 id="nowosci-h">Co nowego</h2>
+    <div class="seg" aria-label="Wersja">
+      <button type="button" data-news="android" aria-pressed="true">Android</button>
+      <button type="button" data-news="ios" aria-pressed="false">iPhone</button>
+    </div>
+  </div>
+  <p class="news-meta"></p>
+  <ul class="news-list"></ul>
+  <p class="small">Opisy zmian są prosto z historii kodu, więc po angielsku.</p>
+  <a class="news-more" href="https://github.com/ReimaginedPixel/MyLibri-releasees/releases">Wszystkie wersje</a>
+</section>
+
+<div class="facts">
+  <section class="card" aria-labelledby="dane-h">
+    <div class="fact-h">
+      <span class="stk" data-s="character-holding-shield-and-pad" style="--outline: var(--sage)" aria-hidden="true"></span>
+      <h3 id="dane-h">Co z Twoimi danymi</h3>
+    </div>
+    <ul>
+      <li>Logujesz się do Librusa prosto z telefonu. Login i hasło trafiają tylko do Librusa i zostają w bezpiecznym schowku telefonu.</li>
+      <li>Oceny, plan i wiadomości są zapisane na telefonie, w zaszyfrowanej bazie.</li>
+      <li>Serwer myLibri (konto w aplikacji, znajomi, notatki w chmurze) nie dostaje Twojego hasła. Notatki i ustawienia są szyfrowane na telefonie, zanim tam trafią.</li>
+    </ul>
+  </section>
+  <section class="card" aria-labelledby="akt-h">
+    <div class="fact-h">
+      <span class="stk" data-s="circular-refresh-arrows" style="--outline: var(--sky)" aria-hidden="true"></span>
+      <h3 id="akt-h">Nowe wersje</h3>
+    </div>
+    <p>myLibri co kilka godzin zagląda na listę wydań (publiczne API GitHuba, bez konta i bez Twoich danych). Kiedy jest nowsza wersja, Start pokazuje „Nowa wersja myLibri”, a Ustawienia &gt; O aplikacji mówią, co się zmieniło.</p>
+    <p>Starsze wersje są w <a href="https://github.com/ReimaginedPixel/MyLibri-releasees/releases">wydaniach na GitHubie</a>.</p>
+  </section>
+</div>
+
+<footer>
+  <span class="squiggle" aria-hidden="true"></span>
+  <p>myLibri jest nieoficjalne i nie jest powiązane z firmą Librus. Librus i Synergia to znaki towarowe ich właścicieli.</p>
+  <p>Pliki leżą w <a href="https://github.com/ReimaginedPixel/MyLibri-releasees">ReimaginedPixel/MyLibri-releasees</a> na GitHubie. Korzystasz z nich na własną odpowiedzialność.</p>
+</footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+  document.documentElement.classList.add("js");
+
+  var REPO = "ReimaginedPixel/MyLibri-releasees";
+  var RELEASES = "https://github.com/" + REPO + "/releases";
+  var API = "https://api.github.com/repos/" + REPO + "/releases?per_page=50";
+  var PLATFORMS = {
+    android: { tag: /^android-build-(\d+)$/, files: ["myLibri.apk"], name: "Androida" },
+    ios: { tag: /^ios-build-(\d+)$/, files: ["myLibri-sidestore.ipa", "myLibri-unsigned.ipa"], name: "iPhone'a" }
+  };
+  var CONSENT = "mylibri.downloads.consent.v1";
+
+  // Stickers: three masked layers each, from assets/stickers.
+  document.querySelectorAll(".stk[data-s]").forEach(function (el) {
+    [["e", ".edge"], ["f", ".fill"], ["k", ""]].forEach(function (layer) {
+      var i = document.createElement("i");
+      i.className = layer[0];
+      i.style.setProperty("--m", "url(assets/stickers/" + el.getAttribute("data-s") + layer[1] + ".png)");
+      el.appendChild(i);
+    });
+  });
+
+  // The box under "Zanim pobierzesz": the files open only once it is ticked.
+  var box = document.getElementById("agree");
+  var label = document.getElementById("agree-box");
+  function remembered() {
+    try { return window.localStorage.getItem(CONSENT) === "1"; } catch (e) { return false; }
+  }
+  function remember(on) {
+    try {
+      if (on) window.localStorage.setItem(CONSENT, "1");
+      else window.localStorage.removeItem(CONSENT);
+    } catch (e) { /* private mode: it is asked again next time */ }
+  }
+  function apply() {
+    var on = box.checked;
+    document.body.classList.toggle("ok", on);
+    document.querySelectorAll(".btn[data-file]").forEach(function (a) {
+      if (on) a.removeAttribute("aria-disabled");
+      else a.setAttribute("aria-disabled", "true");
+    });
+  }
+  box.checked = remembered();
+  box.addEventListener("change", function () { remember(box.checked); apply(); });
+  apply();
+  document.querySelectorAll(".btn[data-file]").forEach(function (a) {
+    a.addEventListener("click", function (event) {
+      if (box.checked) return;
+      event.preventDefault();
+      label.scrollIntoView({ behavior: "smooth", block: "center" });
+      label.classList.remove("nudge");
+      void label.offsetWidth;
+      label.classList.add("nudge");
+      box.focus({ preventScroll: true });
+    });
+  });
+
+  // The visitor's own phone goes first.
+  var ua = navigator.userAgent || "";
+  var ios = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var android = /Android/i.test(ua);
+  var mine = ios ? "iphone" : android ? "android" : null;
+  if (mine) {
+    var card = document.getElementById(mine);
+    card.classList.add("yours");
+    card.querySelector(".mine").hidden = false;
+  }
+
+  // The newest build of each platform, from the public releases API.
+  var DATE = new Intl.DateTimeFormat("pl-PL", { day: "numeric", month: "long", year: "numeric" });
+  function megabytes(bytes) {
+    return (bytes / 1048576).toFixed(1).replace(".", ",") + " MB";
+  }
+  function newest(list, platform) {
+    var best = null;
+    list.forEach(function (r) {
+      if (!r || r.draft || r.prerelease) return;
+      var m = PLATFORMS[platform].tag.exec(r.tag_name || "");
+      if (!m) return;
+      var build = Number(m[1]);
+      if (!best || build > best.build) best = { build: build, release: r };
+    });
+    return best;
+  }
+  function whatsNew(body) {
+    var items = [];
+    var inside = false;
+    String(body || "").split(/\r?\n/).forEach(function (line) {
+      if (/^#{1,6}\s/.test(line)) { inside = /^#{1,6}\s+Co nowego/i.test(line); return; }
+      var m = inside && /^\s*[-*]\s+(.*\S)\s*$/.exec(line);
+      if (m) items.push(m[1]);
+    });
+    return items;
+  }
+
+  var found = {};
+  function show(platform, info) {
+    var meta = document.querySelector('[data-meta="' + platform + '"]');
+    var card = document.getElementById(platform === "ios" ? "iphone" : "android");
+    if (!info) {
+      meta.textContent = "Jeszcze nie ma wersji na " + PLATFORMS[platform].name + ". Zajrzyj później.";
+      card.querySelectorAll(".btn[data-file]").forEach(function (a) { a.href = RELEASES; });
+      return;
+    }
+    var r = info.release;
+    meta.textContent = "Build " + info.build + " · " + DATE.format(new Date(r.published_at || r.created_at));
+    var assets = r.assets || [];
+    PLATFORMS[platform].files.forEach(function (file) {
+      var asset = assets.filter(function (a) { return a.name === file; })[0];
+      var link = card.querySelector('.btn[data-file="' + file + '"]');
+      var size = card.querySelector('[data-size="' + file + '"]');
+      if (asset) {
+        link.href = asset.browser_download_url;
+        if (size && asset.size) size.textContent = size.textContent + ", " + megabytes(asset.size);
+      } else {
+        link.href = r.html_url || RELEASES;
+      }
+    });
+  }
+
+  var news = document.getElementById("nowosci");
+  function showNews(platform) {
+    var info = found[platform];
+    var items = info ? whatsNew(info.release.body) : [];
+    news.querySelectorAll("[data-news]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-news") === platform));
+    });
+    news.querySelector(".news-meta").textContent = info
+      ? "Na " + PLATFORMS[platform].name + ", build " + info.build + " z " + DATE.format(new Date(info.release.published_at || info.release.created_at))
+      : "Jeszcze nie ma wersji na " + PLATFORMS[platform].name + ".";
+    var list = news.querySelector(".news-list");
+    list.textContent = "";
+    items.slice(0, 8).forEach(function (text) {
+      var li = document.createElement("li");
+      li.textContent = text;
+      list.appendChild(li);
+    });
+    if (info && !items.length) {
+      var li = document.createElement("li");
+      li.textContent = "Poprawki i drobne zmiany.";
+      list.appendChild(li);
+    }
+    if (items.length > 8) {
+      var more = document.createElement("li");
+      more.textContent = "i " + (items.length - 8) + " więcej w opisie wydania";
+      list.appendChild(more);
+    }
+  }
+  news.querySelectorAll("[data-news]").forEach(function (b) {
+    b.addEventListener("click", function () { showNews(b.getAttribute("data-news")); });
+  });
+
+  function failed() {
+    // GitHub said no (it allows 60 questions an hour) or is not there: the links still work.
+    document.querySelector('[data-meta="android"]').textContent = "Nie udało się sprawdzić numeru wersji. Przycisk i tak pobiera najnowszą.";
+    document.querySelector('[data-meta="ios"]').textContent = "Nie udało się sprawdzić najnowszej wersji. Przyciski prowadzą do listy wydań: weź najnowsze ios-build.";
+  }
+
+  var controller = "AbortController" in window ? new AbortController() : null;
+  var timer = setTimeout(function () { if (controller) controller.abort(); }, 10000);
+  fetch(API, { headers: { Accept: "application/vnd.github+json" }, signal: controller ? controller.signal : undefined })
+    .then(function (res) {
+      if (!res.ok) throw new Error("GitHub " + res.status);
+      return res.json();
+    })
+    .then(function (list) {
+      clearTimeout(timer);
+      if (!Array.isArray(list)) throw new Error("not a list");
+      found.android = newest(list, "android");
+      found.ios = newest(list, "ios");
+      show("android", found.android);
+      show("ios", found.ios);
+      if (found.android || found.ios) {
+        news.hidden = false;
+        showNews(ios && found.ios ? "ios" : found.android ? "android" : "ios");
+      }
+    })
+    .catch(function () {
+      clearTimeout(timer);
+      failed();
+    });
+})();
+</script>
+</body>
+</html>
