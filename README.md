@@ -1,9 +1,30 @@
 # myLibri: pobierz aplikację
 
+**Strona z pobieraniem: https://reimaginedpixel.github.io/MyLibri-releasees/**
+
 Tu są gotowe wersje myLibri, bez kodu. Każda wersja to jedno wydanie w
 [Releases](https://github.com/ReimaginedPixel/MyLibri-releasees/releases):
 `android-build-…` z plikiem `myLibri.apk` i `ios-build-…` z plikami `.ipa`.
 Wydania robią się same, kiedy w aplikacji pojawia się coś nowego.
+
+## Zanim pobierzesz
+
+- **To nie jest aplikacja Librusa.** myLibri to niezależny, nieoficjalny
+  projekt. Nie jest tworzony, sprawdzany ani wspierany przez firmę Librus i nie
+  jest z nią w żaden sposób powiązany. Librus i Synergia to znaki towarowe ich
+  właścicieli.
+- **Może naruszać regulamin Librusa.** Aplikacja łączy się z Librusem
+  nieoficjalnie. Korzystanie z niej może być niezgodne z regulaminem Librusa,
+  a Librus może to w każdej chwili utrudnić, zablokować albo ograniczyć dostęp
+  do konta.
+- **Na własną odpowiedzialność.** Aplikację dostajesz „tak jak jest”, bez
+  żadnych gwarancji. W granicach, na jakie pozwala prawo, autor nie odpowiada
+  za żadne szkody: za utracone dane, zablokowane konto, kłopoty z telefonem ani
+  za błędy w ocenach, frekwencji czy planie. Zawsze wiążący jest oficjalny
+  Librus.
+- **Pobieraj tylko stąd.** Kopie z innych miejsc mogą być podmienione.
+
+Pobierając, akceptujesz te zasady.
 
 ## Android
 
