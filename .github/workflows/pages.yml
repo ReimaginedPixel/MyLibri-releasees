@@ -1,0 +1,49 @@
+# Publishes the download page (index.html and assets/) on GitHub Pages:
+# https://reimaginedpixel.github.io/MyLibri-releasees/
+#
+# Once, in this repository: Settings > Pages > Build and deployment >
+# Source: GitHub Actions. After that every push to main that changes the
+# page deploys it, and Actions > Download page > Run workflow deploys it by
+# hand. The page reads the releases itself, so a new release needs no deploy.
+name: Download page
+
+on:
+  push:
+    branches: [main]
+    paths: [index.html, assets/**, .github/workflows/pages.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# One deployment at a time; a newer push waits instead of cancelling a live one.
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v5
+
+      # Only the page goes up: no README, no workflow files.
+      - name: Collect the page
+        run: |
+          mkdir -p site
+          cp -R index.html assets .nojekyll site/
+
+      # Fails with "Get Pages site failed" until Source is set to GitHub Actions (see the top).
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
